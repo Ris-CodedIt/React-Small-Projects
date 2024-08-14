@@ -1,8 +1,9 @@
 import React from 'react'
 import Tasks from './Tasks'
 
-const SelectedProject = ({project, onDeleteProject}) => {
-    const formattedDate = new Date(project.dueDate).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
+const SelectedProject = ({project, onDeleteProject, onAddTask, onDeleteTask, tasks}) => {
+
+  const formattedDate = new Date(project.dueDate).toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})
   return (
     <div className='w-[35rem] mt-16'>
         <header className='pb-4 mb-4 border-b-2 border-stone-300'>
@@ -14,7 +15,7 @@ const SelectedProject = ({project, onDeleteProject}) => {
             <p className='text-stone-600 whitespace-pre-wrap'>{project.Description}</p>
 
         </header>
-        <Tasks/>
+        <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={tasks}/>
     </div>
   )
 }
