@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback, useEffect, useState, useRef} from 'react'
 import QUESTIONS from "../questions"
-import compImg from "../assets/quiz-complete.png"
-import QuestionTimer from './QuestionTimer'
+import Summary from './Summary'
+import Question from './Question'
 
 const Quiz = () => {
 
@@ -17,6 +17,7 @@ const Quiz = () => {
     setUserAnswers((prevState)=>{
         return [...prevState, selectedAnswer]
     })
+
   },[])
 
 
@@ -24,28 +25,19 @@ const Quiz = () => {
 
   if(quizIsComplete){
     return (
-    <div id="summary">
-      <img src={compImg} alt="complete quiz image" />
-      <h2>Quiz Completed!</h2>
-    </div>
+      <Summary userAnswers={userAnswers}/>
     )
   }
 
-  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers]
-  shuffledAnswers.sort(()=> Math.random() - 0.5)
 
   return (
     <div id="quiz">
-       <div className="question">
-            <QuestionTimer key={activeQuestionIndex} timeout={10000} onTimeout={handleSkipAnswer}/>
-            <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-            <ul id="answers">
-                {shuffledAnswers.map((answer)=><li key={answer} className='answer'>
-                    <button onClick={()=> handleSelectAnswer(answer)}>{answer}</button>
-                </li>
-            )}
-            </ul>
-        </div>   
+       <Question
+         key={activeQuestionIndex}
+         questionIndex={activeQuestionIndex}
+         onSelectAnswer={handleSelectAnswer}
+         onSkipAnswer={handleSkipAnswer}
+       />
     </div>
 
   )
